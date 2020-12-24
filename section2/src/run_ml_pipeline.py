@@ -6,6 +6,7 @@ import json
 
 from experiments.UNetExperiment import UNetExperiment
 from data_prep.HippocampusDatasetLoader import LoadHippocampusData
+import sklearn.model_selection as skl
 
 class Config:
     """
@@ -13,12 +14,12 @@ class Config:
     """
     def __init__(self):
         self.name = "Basic_unet"
-        self.root_dir = r"YOUR DIRECTORY HERE"
+        self.root_dir = "/home/workspace/in"
         self.n_epochs = 10
         self.learning_rate = 0.0002
         self.batch_size = 8
         self.patch_size = 64
-        self.test_results_dir = "RESULTS GO HERE"
+        self.test_results_dir = "/home/workspace/out"
 
 if __name__ == "__main__":
     # Get configuration
@@ -49,7 +50,8 @@ if __name__ == "__main__":
     # the array with indices of training volumes to be used for training, validation 
     # and testing respectively.
     # <YOUR CODE GOES HERE>
-
+    split['train'], split['test'] = skl.train_test_split(keys, test_size = 0.2 )
+    split['train'], split['val'] = skl.train_test_split(split['train'], test_size = 0.25 )
     # Set up and run experiment
     
     # TASK: Class UNetExperiment has missing pieces. Go to the file and fill them in
